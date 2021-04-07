@@ -12,6 +12,7 @@ print(pypoll_path)
 print(type(pypoll_path))
 os.chdir(pypoll_path)
 
+candidate = []
 
 with open("PyPoll_data.csv","r") as csvfile:
         
@@ -21,9 +22,12 @@ with open("PyPoll_data.csv","r") as csvfile:
     #Skip header
         next(csvreader)
         votesTotal = 0
-
+        
         #read each row of data after the header
         for row in csvreader:
             #print(row[0])
             votesTotal += 1
+            if row[2] != row[2]:
+                candidate.append(row[2])
 print(f"Total votes: {votesTotal}")
+print(candidate)

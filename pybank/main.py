@@ -12,6 +12,15 @@ print(pybank_path)
 print(type(pybank_path))
 os.chdir(pybank_path)
 
+#lists to store data in
+profit = []
+monthlyChange = []
+date = []
+
+monthTotal = 0
+netTotal = 0
+totalChange = 0
+initialProfit = 0
 
 with open("PyBank_budget_data.csv","r") as csvfile:
         
@@ -20,19 +29,39 @@ with open("PyBank_budget_data.csv","r") as csvfile:
         print(csvreader)
     #Skip header
         next(csvreader)
-        monthTotal=0
-        netTotal=0
+        
 
         #read each row of data after the header
         for row in csvreader:
-            #print(row[0])
-            monthTotal += 1
-            netTotal += float(row[1])
-            #averageChange
-            #increase
-            #decrease
             
+            #find the total number of months in the data
+            monthTotal += 1
+            date.append(row[0])
+            #find the total profit
+            profit.append(row[1])
+            netTotal += float(row[1])
+
+            finalProfit = int(row[1])
+            monthlyChangeProfit = finalProfit - initialProfit
+            monthlyChange.append(monthlyChangeProfit)
+            
+            totalChange += monthlyChangeProfit
+            initialProfit = finalProfit
+
+            averageChange = (totalChange/monthTotal)
+
+            increase = max(monthlyChange)
+            decrease = min(monthlyChange)
+
+            increaseDate = date[monthlyChange.index(increase)]
+            decreaseDate = date[monthlyChange.index(decrease)]
+
+print("---------------------")
 print("Financial Analysis:")
 print("---------------------")
 print(f"Total months: {monthTotal}")
 print(f"Total: ${netTotal}")
+print(f"Average Change: ${averageChange}")
+print(f"Greatest Increase: {increaseDate} ${increase}")
+print(f"Greatest Decrease: {decreaseDate} ${decrease}")
+print("---------------------")
